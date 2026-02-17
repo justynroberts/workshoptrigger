@@ -138,4 +138,35 @@ describe('TriggerCard component', () => {
 
     expect(screen.getByText('error')).toBeInTheDocument();
   });
+
+  it('should render View Payload button', () => {
+    render(<TriggerCard error={mockError} onTrigger={() => Promise.resolve()} disabled={false} />);
+
+    expect(screen.getByRole('button', { name: /view payload/i })).toBeInTheDocument();
+  });
+
+  it('should toggle payload preview when View Payload clicked', () => {
+    render(<TriggerCard error={mockError} onTrigger={() => Promise.resolve()} disabled={false} />);
+
+    const toggleButton = screen.getByRole('button', { name: /view payload/i });
+    fireEvent.click(toggleButton);
+
+    expect(screen.getByText(/event_action/)).toBeInTheDocument();
+    expect(screen.getByText(/custom_details/)).toBeInTheDocument();
+    expect(screen.getByText(/payment/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /hide payload/i })).toBeInTheDocument();
+  });
+
+  it('should hide payload preview when Hide Payload clicked', () => {
+    render(<TriggerCard error={mockError} onTrigger={() => Promise.resolve()} disabled={false} />);
+
+    const toggleButton = screen.getByRole('button', { name: /view payload/i });
+    fireEvent.click(toggleButton);
+
+    expect(screen.getByText(/event_action/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /hide payload/i }));
+
+    expect(screen.queryByText(/event_action/)).not.toBeInTheDocument();
+  });
 });

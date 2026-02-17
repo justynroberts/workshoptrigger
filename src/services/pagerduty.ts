@@ -27,6 +27,7 @@ function generateCustomDetails(error: K8sError): Record<string, string | number>
     namespace: 'production',
     cluster: 'workshop-cluster',
     region: 'us-east-1',
+    service: 'payment',
   };
 
   const specificDetails: Record<string, Record<string, string | number>> = {

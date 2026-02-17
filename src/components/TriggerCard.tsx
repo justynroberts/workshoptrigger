@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { K8sError } from '../types';
+import { buildPayload } from '../services/pagerduty';
 import styles from './TriggerCard.module.css';
 
 interface TriggerCardProps {
@@ -13,6 +14,7 @@ interface TriggerCardProps {
 export function TriggerCard({ error, onTrigger, disabled }: TriggerCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
+  const [showPayload, setShowPayload] = useState(false);
 
   const handleClick = async () => {
     if (disabled || isLoading) return;
@@ -30,6 +32,22 @@ export function TriggerCard({ error, onTrigger, disabled }: TriggerCardProps) {
     }
   };
 
+  const getPayloadPreview = () => {
+    const payload = buildPayload('<routing_key>', error);
+    return {
+      event_action: payload.event_action,
+      payload: {
+        summary: payload.payload.summary,
+        source: payload.payload.source,
+        severity: payload.payload.severity,
+        component: payload.payload.component,
+        group: payload.payload.group,
+        class: payload.payload.class,
+        custom_details: payload.payload.custom_details,
+      },
+    };
+  };
+
   return (
     <article className={styles.card} data-severity={error.severity}>
       <div className={styles.header}>
@@ -41,6 +59,25 @@ export function TriggerCard({ error, onTrigger, disabled }: TriggerCardProps) {
 
       <h3 className={styles.name}>{error.name}</h3>
       <p className={styles.description}>{error.description}</p>
+
+      <button
+        type="button"
+        className={styles.payloadToggle}
+        onClick={() => setShowPayload(!showPayload)}
+        aria-expanded={showPayload}
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M16 18l2-2-4-4 4-4-2-2-6 6 6 6z" fill="currentColor" />
+          <path d="M8 18l-2-2 4-4-4-4 2-2 6 6-6 6z" fill="currentColor" />
+        </svg>
+        {showPayload ? 'Hide' : 'View'} Payload
+      </button>
+
+      {showPayload && (
+        <pre className={styles.payloadPreview}>
+          {JSON.stringify(getPayloadPreview(), null, 2)}
+        </pre>
+      )}
 
       <button
         className={styles.triggerButton}

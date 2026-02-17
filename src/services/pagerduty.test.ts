@@ -123,6 +123,7 @@ describe('pagerduty service', () => {
       expect(payload.payload.custom_details).toBeDefined();
       expect(payload.payload.custom_details.namespace).toBe('production');
       expect(payload.payload.custom_details.cluster).toBe('workshop-cluster');
+      expect(payload.payload.custom_details.service).toBe('payment');
     });
 
     it('should handle unknown component type', () => {

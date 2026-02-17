@@ -96,7 +96,47 @@
   font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.5;
-  flex: 1;
+}
+
+.payloadToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.payloadToggle:hover {
+  color: var(--pd-green);
+  border-color: var(--pd-green);
+}
+
+.payloadToggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.payloadPreview {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 0.625rem;
+  font-family: monospace;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .triggerButton {
